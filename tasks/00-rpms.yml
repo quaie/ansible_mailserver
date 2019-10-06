@@ -1,0 +1,26 @@
+---
+
+- name: rspamd repo
+  yum_repository:
+    name: rspamd
+    description: rspamd
+    baseurl: http://rspamd.com/rpm-stable/centos-7/x86_64/
+    gpgcheck: yes
+    gpgkey: https://rspamd.com/rpm-stable/gpg.key
+    enabled: yes
+
+- name: install epel
+  yum:
+    name: epel-release
+    state: latest
+- name: install packages
+  yum:
+    name:
+      - postfix
+      - rspamd
+      - dovecot
+      - roundcubemail
+      - httpd
+    state: latest
+
+...

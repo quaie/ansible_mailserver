@@ -1,0 +1,16 @@
+---
+- hosts: mail
+  become: yes
+  tasks:
+
+  - import_tasks: tasks/00-rpms.yml
+    tags:
+      - rpms
+
+  - import_tasks: tasks/01-services.yml
+    tags:
+      - services
+
+  - import_tasks: tasks/02-firewall.yml
+    tags:
+      - firewall

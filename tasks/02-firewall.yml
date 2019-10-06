@@ -1,0 +1,34 @@
+---
+- name: selinux running
+  selinux:
+    policy: targeted
+    state: enforcing
+
+- name: start firewalld
+  service:
+    name: firewalld
+    state: started
+    enabled: yes
+
+- name: allow services
+  firewalld:
+    service: "{{ item }}"
+    state: enabled
+    permanent: yes
+    immediate: yes
+  with_items:
+    - http
+    - https
+    - smtp
+    - imap
+    - imaps
+    - pop3
+    - pop3s
+
+- name: submission
+  firewalld:
+    port: 587/tcp
+    permanent: yes
+    state: enabled
+    immediate: yes
+...
