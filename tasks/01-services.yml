@@ -1,0 +1,11 @@
+---
+- name: set running daemons
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  with_items: 
+    - httpd
+    - postfix
+    - dovecot 
+...
