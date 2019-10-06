@@ -1,0 +1,7 @@
+---
+- name: owner of maildirs
+  user:
+    name: johndoe
+    shell: /dev/null
+    uid: 7777
+...

@@ -14,3 +14,15 @@
   - import_tasks: tasks/02-firewall.yml
     tags:
       - firewall
+
+  - import_tasks: tasks/03-users.yml
+    tags:
+      - user
+  
+
+
+
+
+
+
+

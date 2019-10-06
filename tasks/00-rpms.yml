@@ -21,6 +21,8 @@
       - dovecot
       - roundcubemail
       - httpd
+      - mariadb-server
+      - dovecot-mysql
     state: latest
 
 ...
