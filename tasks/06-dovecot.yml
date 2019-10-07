@@ -1,0 +1,15 @@
+---
+
+- name: copy configs
+  copy:
+    src: "{{ item }}"
+    dest: /etc/postfix/
+    owner: root
+    group: postfix
+    mode: 0640
+  with_fileglob:
+    - files/postfix/*
+  notify:
+    - postfix_postmap   
+
+...

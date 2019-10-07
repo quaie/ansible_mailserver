@@ -1,2 +1,5 @@
 ---
 # handlers file for mailserver
+- name: postfix_postmap
+  shell: for i in header_checks, transport; do postmap /etc/postfix/$i; done
+  listen: postfix_postmap

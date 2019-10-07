@@ -1,0 +1,48 @@
+---
+  - name: Set fact random temporary directory name (1/2)
+    command: /usr/bin/uuidgen
+    register: p
+    changed_when: no
+    check_mode: no
+    delegate_to: 127.0.0.1
+    when: stage == '1'
+
+  - name: Set fact random temporary directory name (2/2)
+    set_fact:
+     git_tempdir : /tmp/{{ p.stdout }}
+    check_mode: no
+    delegate_to: 127.0.0.1
+    when: stage == '1'
+
+  - name: Make dir {{ git_tempdir }}
+    file:
+     path: "{{ git_tempdir }}"
+     state: directory
+     mode: 0700
+     #owner: splunk
+     #group: splunk
+    changed_when: no
+    become: no
+    check_mode: no
+    delegate_to: 127.0.0.1
+    when: stage == '1'
+
+#  - name: Git clone
+#    git:
+#     repo: https://
+#     dest: "{{ git_tempdir }}"
+#     clone: yes
+#    changed_when: False
+#    check_mode: no
+#    delegate_to: 127.0.0.1
+#    when: stage == '1'
+
+#  - name: Remove dir {{ git_tempdir }}
+#    file:
+#     path: "{{ git_tempdir }}"
+#     state: absent
+#    changed_when: no
+#    check_mode: no
+#    delegate_to: 127.0.0.1
+#    when: stage == '2'
+...
