@@ -1,25 +1,29 @@
 ---
 - hosts: mail
   become: yes
+  vars_files:
+    - vault.yml
   tasks:
 
-  - import_tasks: tasks/00-rpms.yml
+  - include_tasks: tasks/00-rpms.yml
     tags:
       - rpms
 
-  - import_tasks: tasks/01-services.yml
+  - include_tasks: tasks/01-services.yml
     tags:
       - services
 
-  - import_tasks: tasks/02-firewall.yml
+  - include_tasks: tasks/02-firewall.yml
     tags:
       - firewall
 
-  - import_tasks: tasks/03-users.yml
+  - include_tasks: tasks/03-users.yml
     tags:
       - user
   
-
+  - import_tasks: tasks/04-mysql.yml
+    tags:
+      - mysql
 
 
 

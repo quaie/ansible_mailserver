@@ -1,0 +1,43 @@
+---
+- name: check if password already changed
+  shell: echo "show databases" | mysql -uroot
+  failed_when: no 
+  changed_when: no
+  register: mysqlpass
+
+- name: copy mysql_secure_installation
+  block:
+    - name: copy mysql_secure_installation
+      template:
+        dest: /tmp/sql
+        src: templates/mysql_secure_installation.j2
+
+    - name: run script
+      shell: mysql -sfu root < "/tmp/sql"
+
+    - name: delete mysql_secure_installation
+      file:
+        path: /tmp/sql
+        state: absent
+  when: "'mysql' in mysqlpass.stdout" 
+
+- name: postfix database
+  mysql_db:
+    name: postfix
+    state: present
+    login_host: localhost
+    login_user: root
+    login_password: "{{ mysql_password_root }}"
+
+- name: postfix user
+  mysql_user:
+    name: postfix
+    state: present
+    password: "{{ mysql_password_postfix }}"
+    priv: 'postfix.*:ALL'
+    login_host: localhost
+    login_user: root
+    login_password: "{{ mysql_password_root }}"
+
+
+...

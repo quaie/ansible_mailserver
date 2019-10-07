@@ -23,6 +23,7 @@
       - httpd
       - mariadb-server
       - dovecot-mysql
+      - MySQL-python
     state: latest
 
 ...
