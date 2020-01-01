@@ -27,6 +27,8 @@
 - name: set module stream for php
   shell: yum module enable php:remi-7.4 -y
   changed_when: False
+  args:
+    warn: no
 
 - name: install packages
   yum:

@@ -1,5 +1,23 @@
 ---
 
+- set_fact:
+    non_mysql_files: "{{ lookup('fileglob','files/postfix/*',wantlist=true) | reject('search', 'mysql') | list }}"
+
+#- debug:
+#    msg: "{{ non_mysql_files }}"
+
+- name: instantiate mysql postfix configs
+  template:
+    src: "{{ item }}"
+    dest: /etc/postfix/
+    owner: root
+    group: postfix
+    mode: 0640
+  with_fileglob:
+    - files/postfix/mysql*
+  #notify:
+  #  - postfix_postmap   
+
 - name: copy configs
   copy:
     src: "{{ item }}"
@@ -7,9 +25,10 @@
     owner: root
     group: postfix
     mode: 0640
-  with_fileglob:
-    - files/postfix/*
+  with_items:
+    - "{{ non_mysql_files }}"
   notify:
     - postfix_postmap   
+
 
 ...

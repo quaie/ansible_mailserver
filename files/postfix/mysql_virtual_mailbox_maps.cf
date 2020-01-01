@@ -1,0 +1,5 @@
+user = {{ postfix_mysql_user }}
+password = {{ postfix_mysql_pass }}
+hosts = {{ postfix_mysql_host }}
+dbname = {{ postfix_db_name }}
+query = SELECT maildir FROM mailbox WHERE username='%s'

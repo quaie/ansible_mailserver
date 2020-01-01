@@ -1,0 +1,7 @@
+user = {{ postfix_mysql_user }}
+password = {{ postfix_mysql_pass }}
+hosts = {{ postfix_mysql_host }}
+dbname = {{ postfix_db_name }}
+#query = SELECT description FROM domain WHERE domain='%s'
+#optional query to use when relaying for backup MX
+query = SELECT description FROM domain WHERE domain='%s' and backupmx = '0' and active = '1'
