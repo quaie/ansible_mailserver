@@ -29,7 +29,7 @@
 
 #  - name: Git clone
 #    git:
-#     repo: https://
+#     repo: "{{ git_repo }}"
 #     dest: "{{ git_tempdir }}"
 #     clone: yes
 #    changed_when: False

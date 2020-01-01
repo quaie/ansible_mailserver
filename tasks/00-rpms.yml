@@ -4,7 +4,8 @@
   yum_repository:
     name: rspamd
     description: rspamd
-    baseurl: http://rspamd.com/rpm-stable/centos-7/x86_64/
+    #baseurl: http://rspamd.com/rpm-stable/centos-7/x86_64/
+    baseurl: http://rspamd.com/rpm-stable/centos-8/x86_64/
     gpgcheck: yes
     gpgkey: https://rspamd.com/rpm-stable/gpg.key
     enabled: yes
@@ -13,17 +14,34 @@
   yum:
     name: epel-release
     state: latest
+
+- name: remi for roundcube
+  yum:
+    name: https://rpms.remirepo.net/enterprise/remi-release-8.rpm
+    state: present
+
+- name: enable remi repo
+  shell: yum-config-manager --enable remi
+  changed_when: False
+
+- name: set module stream for php
+  shell: yum module enable php:remi-7.4 -y
+  changed_when: False
+
 - name: install packages
   yum:
     name:
+      - python3
       - postfix
       - rspamd
       - dovecot
-      - roundcubemail
       - httpd
+      - php74
+#      - roundcubemail
       - mariadb-server
       - dovecot-mysql
-      - MySQL-python
+      ##- MySQL-python
+      - python3-PyMySQL
     state: latest
 
 ...

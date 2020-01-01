@@ -1,5 +1,5 @@
 ---
-- hosts: mail
+- hosts: mail8
   become: yes
   handlers:
     - include: handlers/main.yml

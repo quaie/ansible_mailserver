@@ -1,2 +1,7 @@
 mysql_password_root: 123
 mysql_password_postfix: 123
+
+# passwords for the repo containing the configs
+# format https://user:pass@github.com/repo_name
+git_repo: https://user:pass@github.com/repo_name
+
