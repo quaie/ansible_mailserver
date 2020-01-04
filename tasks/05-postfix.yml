@@ -15,8 +15,8 @@
     mode: 0640
   with_fileglob:
     - files/postfix/mysql*
-  #notify:
-  #  - postfix_postmap   
+  notify:
+    - restart_postfix   
 
 - name: copy configs
   copy:

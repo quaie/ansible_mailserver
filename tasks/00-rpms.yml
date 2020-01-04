@@ -46,6 +46,7 @@
       - dovecot-mysql
       ##- MySQL-python
       - python3-PyMySQL
+      - python3-policycoreutils
       - git
     state: latest
 

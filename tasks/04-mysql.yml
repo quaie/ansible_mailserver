@@ -23,19 +23,37 @@
 
 - name: postfix database
   mysql_db:
-    name: postfix
+    name: "{{ postfix_mysql_dbname }}"
     state: present
-    login_host: localhost
+    login_host: "{{ postfix_mysql_host }}"
     login_user: root
     login_password: "{{ root_mysql_password }}"
 
 - name: postfix user
   mysql_user:
-    name: postfix
+    name: "{{ postfix_mysql_user }}"
     state: present
     password: "{{ postfix_mysql_password }}"
-    priv: 'postfix.*:ALL'
-    login_host: localhost
+    priv: '{{ postfix_mysql_dbname }}.*:ALL'
+    login_host: "{{ postfix_mysql_host }}"
+    login_user: root
+    login_password: "{{ root_mysql_password }}"
+
+- name: roundcube database
+  mysql_db:
+    name: "{{ roundcube_mysql_dbname }}"
+    state: present
+    login_host: "{{ roundcube_mysql_host }}"
+    login_user: root
+    login_password: "{{ root_mysql_password }}"
+
+- name: roundcube user
+  mysql_user:
+    name: "{{ roundcube_mysql_user }}"
+    state: present
+    password: "{{ roundcube_mysql_password }}"
+    priv: '{{ roundcube_mysql_dbname }}.*:ALL'
+    login_host: "{{ roundcube_mysql_host }}"
     login_user: root
     login_password: "{{ root_mysql_password }}"
 
