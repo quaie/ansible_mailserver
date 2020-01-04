@@ -27,17 +27,17 @@
     state: present
     login_host: localhost
     login_user: root
-    login_password: "{{ mysql_password_root }}"
+    login_password: "{{ root_mysql_password }}"
 
 - name: postfix user
   mysql_user:
     name: postfix
     state: present
-    password: "{{ mysql_password_postfix }}"
+    password: "{{ postfix_mysql_password }}"
     priv: 'postfix.*:ALL'
     login_host: localhost
     login_user: root
-    login_password: "{{ mysql_password_root }}"
+    login_password: "{{ root_mysql_password }}"
 
 
 ...

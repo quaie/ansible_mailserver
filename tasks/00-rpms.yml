@@ -38,12 +38,15 @@
       - rspamd
       - dovecot
       - httpd
-      - php74
-#      - roundcubemail
+      - php
+      - php-imap
+      - php-mysqlnd
+      - roundcubemail
       - mariadb-server
       - dovecot-mysql
       ##- MySQL-python
       - python3-PyMySQL
+      - git
     state: latest
 
 ...

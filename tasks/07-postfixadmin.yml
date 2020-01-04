@@ -1,0 +1,42 @@
+---
+
+- name: see if installed
+  stat:
+    path: /var/www/html/postfixadmin
+  register: stat_result
+
+- name: do the postfix admin stuff
+  block:
+
+    - name: git clone
+      shell: cd /var/www/html && git clone https://github.com/postfixadmin/postfixadmin.git
+
+    - name: git clone stage 2
+      shell: cd /var/www/html/postfixadmin && git checkout postfixadmin-3.2.2
+
+  when: stat_result.stat.exists == False 
+
+- name: copy config
+  template:
+    dest: /var/www/html/postfixadmin/config.local.php
+    src: files/postfixadmin/config.local.php
+
+- name: templates_c folder
+  file:
+    path: /var/www/html/postfixadmin/templates_c
+    state: directory
+    mode: '0755'
+    owner: apache
+    group: root
+
+- name: set selinux context
+  sefcontext:
+    target: '/var/www/html/postfixadmin/templates_c'
+    setype: httpd_sys_content_rw_t
+    state: present
+
+- name: apply new selinux context
+  command: restorecon -irv /var/www/html/postfixadmin/templates_c
+
+...
+

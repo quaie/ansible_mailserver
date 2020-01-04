@@ -37,7 +37,9 @@
     tags:
       - postfix
 
-
+  - import_tasks: tasks/07-postfixadmin.yml
+    tags:
+      - postfixadmin
 
 
 
