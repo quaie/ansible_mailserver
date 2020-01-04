@@ -9,4 +9,6 @@
     - postfix
     - dovecot
     - mariadb
+    - rspamd
+    #- redis
 ...

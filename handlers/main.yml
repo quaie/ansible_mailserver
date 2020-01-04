@@ -3,3 +3,26 @@
 - name: postfix_postmap
   shell: for i in header_checks, helo_access, rhsbl_sender_domain_exceptions, sender_checks, skip_spf, spammers_accepted, transport; do postmap /etc/postfix/$i; done
   listen: postfix_postmap
+
+- name: restart_postfix
+  service:
+    name: postfix
+    state: restarted
+  listen: restart_postfix
+
+- name: restart_rspamd
+  service:
+    name: rspamd
+    state: restarted
+
+- name: restart_dovecot
+  service:
+    name: dovecot
+    state: restarted
+
+- name: restart_apache
+  service:
+    name: httpd
+    state: restarted
+
+ 
