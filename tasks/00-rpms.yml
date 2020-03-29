@@ -17,7 +17,9 @@
 
 - name: remi for roundcube
   yum:
-    name: https://rpms.remirepo.net/enterprise/remi-release-8.rpm
+    name:
+      - https://rpms.remirepo.net/enterprise/remi-release-8.rpm
+      - yum-utils
     state: present
 
 - name: enable remi repo

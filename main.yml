@@ -19,11 +19,11 @@
     tags:
       - firewall
   
-  - import_tasks: tasks/git_handling.yml
-    vars:
-      - stage: '1'
-    tags:
-      - git
+        #  - import_tasks: tasks/git_handling.yml
+        #    vars:
+        #      - stage: '1'
+        #    tags:
+        #      - git
 
   - import_tasks: tasks/03-users.yml
     tags:

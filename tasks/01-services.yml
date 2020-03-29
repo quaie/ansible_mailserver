@@ -6,7 +6,7 @@
     enabled: yes
   with_items: 
     - httpd
-    - postfix
+      #    - postfix
     - dovecot
     - mariadb
     - rspamd

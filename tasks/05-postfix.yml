@@ -3,8 +3,8 @@
 - set_fact:
     non_mysql_files: "{{ lookup('fileglob','files/postfix/*',wantlist=true) | reject('search', 'mysql') | list }}"
 
-#- debug:
-#    msg: "{{ non_mysql_files }}"
+- debug:
+    msg: "{{ non_mysql_files }}"
 
 - name: instantiate mysql postfix configs
   template:

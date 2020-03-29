@@ -1,5 +1,14 @@
 # ansible_mailserver
 ansible playbook to install a fully functional mailserver on a centos 8 server
+some files are encrypted (personal data)
+    - header_checks
+    - helo_access
+    - mynetworks
+    - postscreen_access.cidr
+    - sender_checks
+    - skip_spf
+    - spammers_accepted
+    - transport
 
 
 ### worklog
