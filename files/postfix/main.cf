@@ -93,6 +93,7 @@ mail_owner = postfix
 #
 #myhostname = host.domain.tld
 #myhostname = virtual.domain.tld
+myhostname = mx.example.com
 
 # The mydomain parameter specifies the local internet domain name.
 # The default is to use $myhostname minus the first component.
@@ -180,7 +181,7 @@ inet_protocols = all
 #
 # See also below, section "REJECTING MAIL FOR UNKNOWN LOCAL USERS".
 #
-mydestination = $myhostname, localhost.$mydomain, localhost
+####mydestination = $myhostname, localhost.$mydomain, localhost
 #mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain
 #mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain,
 #	mail.$mydomain, www.$mydomain, ftp.$mydomain
@@ -280,7 +281,7 @@ unknown_local_recipient_reject_code = 550
 # of listing the patterns here. Specify type:table for table-based lookups
 # (the value on the table right-hand side is not used).
 #
-#mynetworks = 168.100.189.0/28, 127.0.0.0/8
+mynetworks = 192.168.1.0/24, 127.0.0.0/8
 #mynetworks = $config_directory/mynetworks
 #mynetworks = hash:/etc/postfix/network_table
 
@@ -736,3 +737,100 @@ smtp_tls_CAfile = /etc/pki/tls/certs/ca-bundle.crt
 smtp_tls_security_level = may
 meta_directory = /etc/postfix
 shlib_directory = /usr/lib64/postfix
+
+### customized content
+
+virtual_uid_maps = static:7777
+virtual_gid_maps = static:7777
+virtual_mailbox_base = /BIG/maildirs
+virtual_mailbox_domains = mysql:/etc/postfix/mysql_virtual_mailbox_domains.cf
+virtual_mailbox_maps = mysql:/etc/postfix/mysql_virtual_mailbox_maps.cf
+virtual_alias_maps = mysql:/etc/postfix/mysql_virtual_alias_maps.cf
+relay_domains = mysql:/etc/postfix/mysql_relay_domains_maps.cf
+virtual_transport = lmtp:unix:private/dovecot-lmtp
+smtpd_recipient_restrictions =
+ permit_mynetworks,
+ permit_sasl_authenticated,
+ reject_non_fqdn_hostname,
+ reject_non_fqdn_sender,
+ reject_non_fqdn_recipient,
+ reject_unauth_destination,
+ reject_unauth_pipelining,
+ reject_invalid_hostname,
+ reject_rbl_client        cbl.abuseat.org,
+ reject_rbl_client        zen.spamhaus.org,
+ reject_rbl_client        ix.dnsbl.manitu.net,
+ permit_mx_backup
+
+
+smtpd_sasl_auth_enable = yes
+smtpd_sasl_security_options = noanonymous
+smtpd_sasl_type = dovecot
+smtpd_sasl_path = private/auth
+milter_default_action = accept
+
+smtpd_sender_restrictions =
+   permit_sasl_authenticated,
+   permit_mynetworks,
+   reject_unauth_destination,
+   check_policy_service unix:private/policyd-spf,
+   hash:/etc/postfix/access
+smtpd_end_of_data_restrictions =
+ permit_sasl_authenticated,
+ check_policy_service inet:127.0.0.1:10101,
+ permit_mynetworks
+
+policyd-spf_time_limit = 3600
+
+smtpd_helo_required = yes
+smtpd_delay_reject = yes
+disable_vrfy_command = yes 
+
+
+
+smtpd_tls_security_level = may
+smtp_tls_note_starttls_offer = yes
+smtpd_tls_cert_file = /etc/postfix/private/postfix.pemcert
+smtpd_tls_key_file = /etc/postfix/private/postfix.pemkey
+smtpd_tls_loglevel = 1
+smtpd_tls_received_header = yes
+smtpd_tls_session_cache_timeout = 3600s
+tls_random_source = dev:/dev/urandom
+
+message_size_limit = 50000000
+
+smtpd_sasl_authenticated_header = yes
+
+postscreen_access_list = permit_mynetworks,
+                         cidr:/etc/postfix/postscreen_access.cidr
+
+
+
+postscreen_greet_action = enforce
+postscreen_dnsbl_ttl = 15m
+postscreen_dnsbl_threshold = 8
+postscreen_dnsbl_action = enforce
+postscreen_dnsbl_sites =
+  dnsbl.sorbs.net=127.0.0.10*8
+  zen.spamhaus.org=127.0.0.[10;11]*8
+  b.barracudacentral.org=127.0.0.2*7
+  dnsbl.inps.de=127.0.0.2*7
+  dnsbl.sorbs.net=127.0.0.5*6
+  zen.spamhaus.org=127.0.0.[4..7]*6
+  bl.mailspike.net=127.0.0.2*5
+  bl.mailspike.net=127.0.0.[10;11;12]*4
+  bl.spamcop.net=127.0.0.2*4
+  bl.spameatingmonkey.net=127.0.0.[2;3]*4
+  zen.spamhaus.org=127.0.0.3*4
+  dnsrbl.swinog.ch=127.0.0.3*4
+  zen.spamhaus.org=127.0.0.2*3
+  dnsbl.sorbs.net=127.0.0.7*3
+  dnsbl.sorbs.net=127.0.0.8*2
+  dnsbl.sorbs.net=127.0.0.6*2
+  dnsbl.sorbs.net=127.0.0.9*2
+  wl.mailspike.net=127.0.0.[18;19;20]*-2
+  list.dnswl.org=127.0.[0..255].0*-2
+  list.dnswl.org=127.0.[0..255].1*-3
+  list.dnswl.org=127.0.[0..255].2*-4
+  list.dnswl.org=127.0.[0..255].3*-5
+

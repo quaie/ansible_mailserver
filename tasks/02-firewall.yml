@@ -1,8 +1,13 @@
 ---
+- name: set timezone
+  timezone:
+    name: Europe/Bucharest
+
 - name: selinux running
   selinux:
     policy: targeted
-    state: enforcing
+    state: permissive
+    ####enforcing
 
 - name: start firewalld
   service:

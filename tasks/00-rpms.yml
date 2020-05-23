@@ -37,6 +37,7 @@
     name:
       - python3
       - postfix
+      - postfix-mysql
       - rspamd
       - dovecot
       - httpd

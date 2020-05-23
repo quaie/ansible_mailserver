@@ -5,6 +5,7 @@ postfix_mysql_user: postfix
 postfix_mysql_password: 123
 postfix_mysql_host: localhost
 postfix_mysql_dbname: postfix
+postfix_servername: mx.example.com
 
 #roundcube stuff
 roundcube_mysql_user: roundcube
@@ -12,7 +13,10 @@ roundcube_mysql_password: 123
 roundcube_mysql_host: localhost
 roundcube_mysql_dbname: roundcube
 
-
+#dovecot stuff
+dovecot_root_dir: /BIG/maildirs
+dovecot_gid: 7777
+dovecot_uid: 7777
 
 # passwords for the repo containing the configs
 # format https://user:pass@github.com/repo_name

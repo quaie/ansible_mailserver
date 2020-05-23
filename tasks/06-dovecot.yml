@@ -1,15 +1,38 @@
 ---
 
+- name: main config
+  copy:
+    src: files/dovecot/dovecot.conf
+    dest: /etc/dovecot/
+    owner: root
+    group: root
+    mode: 0640
+  notify:
+    - restart_dovecot
+
 - name: copy configs
   copy:
     src: "{{ item }}"
-    dest: /etc/postfix/
+    dest: /etc/dovecot/conf.d
     owner: root
-    group: postfix
+    group: root
     mode: 0640
   with_fileglob:
-    - files/postfix/*
+    - files/dovecot/conf.d/*.conf
   notify:
-    - postfix_postmap   
+    - restart_dovecot   
+
+- name: copy configs 2
+  template:
+    src: "{{ item }}"
+    dest: /etc/dovecot/conf.d
+    owner: root
+    group: root
+    mode: 0640
+  with_fileglob:
+    - files/dovecot/conf.d/*.ext
+  notify:
+    - restart_dovecot   
+
 
 ...

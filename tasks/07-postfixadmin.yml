@@ -12,8 +12,10 @@
       shell: cd /var/www/html && git clone https://github.com/postfixadmin/postfixadmin.git
 
     - name: git clone stage 2
-      shell: cd /var/www/html/postfixadmin && git checkout postfixadmin-3.2.2
+      shell: cd /var/www/html/postfixadmin && git checkout postfixadmin-3.2.4
 
+    - name: setup postfixadmin
+      shell: cd /var/www/html/postfixadmin/public && php setup.php
   when: stat_result.stat.exists == False 
 
 - name: copy config

@@ -37,6 +37,10 @@
     tags:
       - postfix
 
+  - import_tasks: tasks/06-dovecot.yml
+    tags:
+      - dovecot
+
   - import_tasks: tasks/07-postfixadmin.yml
     tags:
       - postfixadmin

@@ -3,5 +3,5 @@
   user:
     name: johndoe
     shell: /dev/null
-    uid: 7777
+    uid: "{{ dovecot_uid }}"
 ...
